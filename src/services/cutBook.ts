@@ -2,7 +2,7 @@ import fs from 'fs';
 import { PDFDocument } from 'pdf-lib';
 import path from 'path';
 
-async function cutBook(
+export async function cutBook(
   inputPath: string, 
   outputDir: string, 
   ranges: number[][]
@@ -20,21 +20,8 @@ async function cutBook(
 
     const pdfBytes = await newPdf.save();
 
-    const outputPath = path.join(outputDir, `intervalo_${start}-${end}.pdf`);
+    const outputPath = path.join(outputDir, `Chapter_${index + 1}.pdf`);
     fs.writeFileSync(outputPath, pdfBytes);
-    console.log(`Gerado: ${outputPath}`);
+    console.log(`Generate: ${path.basename(outputPath)}`);
   }
 }
-
-const ranges = [
-  [1, 3],
-  [7, 10],
-  [15, 15],
-];
-
-const outputDir = './pdfs_gerados';
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir);
-}
-
-cutBook('entrada.pdf', outputDir, ranges);
