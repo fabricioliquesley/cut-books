@@ -2,7 +2,7 @@ import fs from 'fs';
 import { PDFDocument } from 'pdf-lib';
 import path from 'path';
 
-async function extractRangesToFiles(
+async function cutBook(
   inputPath: string, 
   outputDir: string, 
   ranges: number[][]
@@ -37,4 +37,4 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }
 
-extractRangesToFiles('entrada.pdf', outputDir, ranges);
+cutBook('entrada.pdf', outputDir, ranges);
