@@ -6,7 +6,7 @@ function main() {
 
   if (!cutSettings) return;
 
-  createBookFolder(cutSettings.book.toLowerCase());
+  createBookFolder(cutSettings[0].books[0].title.toLowerCase());
 
   console.log(cutSettings);
 }
