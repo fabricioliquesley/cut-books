@@ -17,6 +17,7 @@ export function createBookFolder(folderName: string) {
   try {
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
+      return folderPath;
     }
     else {
       console.log(`A folder with the name ${path.basename(folderName)} already exists.`);
