@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { loadHomeDir } from "./loadCutSettings";
+import { loadHomeDir } from "../lib/loadHomeDir";
+import { normalizeFolderName } from "../lib/normalizeFolderName";
 
 /**
  * 
@@ -24,16 +25,4 @@ export function createBookFolder(folderName: string) {
   } catch (err) {
     console.error(err);
   }
-}
-
-/**
- * 
- * @param name string
- */
-function normalizeFolderName(name: string) {
-  return name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '_')
-    .replace(/[/\\?%*:|"<>]/g, '');
 }

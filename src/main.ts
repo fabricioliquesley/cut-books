@@ -1,5 +1,5 @@
-import { loadCutSettings } from "./loadCutSettings";
-import { createBookFolder } from "./createBookFolder";
+import { loadCutSettings } from "./services/loadCutSettings";
+import { createBookFolder } from "./services/createBookFolder";
 
 function main() {
   const cutSettings = loadCutSettings();

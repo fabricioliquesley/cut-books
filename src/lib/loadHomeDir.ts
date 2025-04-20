@@ -1,33 +1,7 @@
-import fs from "node:fs";
-import path from "node:path";
 import os from "node:os";
-
-import { BaseError } from "./errors/baseError";
-import { CutSettings } from "./@types/cutSettings";
-
-export function loadCutSettings() {
-  try {
-    const loadCutSettingsPath = path.join(loadHomeDir(), "cutBook", "cutSettings.json");
-    const cutSettingsRawData = fs.readFileSync(loadCutSettingsPath, "utf8");
-    const jsonData = JSON.parse(cutSettingsRawData) as CutSettings;
-    
-    return jsonData;
-  } 
-  catch (err) {
-    if (err instanceof BaseError) {
-      console.error({
-        error: err.error,
-        message: err.message
-      })
-    } 
-    else if (err instanceof SyntaxError) {
-      console.error('Error when parsing JSON:', err.message);
-    }
-    else {
-      throw err;
-    }
-  }
-}
+import path from "node:path";
+import fs from "node:fs";
+import { BaseError } from "../errors/baseError";
 
 export function loadHomeDir() {
   const homeDir = os.homedir();
