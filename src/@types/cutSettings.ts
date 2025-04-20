@@ -1,9 +1,9 @@
 export type CutSettings = {
-  file: string,
+  filename: string,
   books: [
     {
       title: string
-      chapter: string[]
+      chapters: string[]
     }
   ]
 }[]

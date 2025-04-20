@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "node dist/loadCutSettings.js",
+    "start": "node dist/main.js",
     "build": "tsc",
     "dev": "tsx watch src/main.ts"
   },
