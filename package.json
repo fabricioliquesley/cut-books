@@ -1,0 +1,22 @@
+{
+  "name": "cutBook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node dist/loadCutSettings.js",
+    "build": "tsc",
+    "dev": "tsx watch src/main.ts"
+  },
+  "keywords": [],
+  "author": "Fabricio Liquesley",
+  "license": "MIT",
+  "packageManager": "pnpm@10.8.0",
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}
