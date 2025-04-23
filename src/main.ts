@@ -3,16 +3,13 @@ import fastify from "fastify";
 import { z } from "zod";
 import cors from "@fastify/cors";
 
-import { loadCutSettings } from "./services/loadCutSettings";
 import { createBookFolder } from "./services/createBookFolder";
 import { loadHomeDir } from "./lib/loadHomeDir";
 import { cutBook } from "./services/cutBook";
+import { generateCutSettings } from "./services/generateCutSettings";
+import { CutSettings } from "./@types/cutSettings";
 
-function main() {
-  const cutSettings = loadCutSettings();
-
-  if (!cutSettings) return;
-
+function main(cutSettings: CutSettings) {
   cutSettings.forEach((file) => {
     const filePath = path.join(loadHomeDir(), "cutBook", file.filename);
 
@@ -27,15 +24,8 @@ function main() {
 
       await cutBook(filePath, folderPath, range);
     });
-
-    // console.log(filePath);
-    // console.log(file.books)
   });
-
-  // console.log(cutSettings);
 }
-
-// main();
 
 const app = fastify();
 
@@ -68,20 +58,24 @@ const bodySchema = z.object({
 });
 
 app.post("/cut-books", (request, reply) => {
-  const bodyResponse = bodySchema.safeParse(request.body);
+  const bodyRequest = bodySchema.safeParse(request.body);
 
-  if (bodyResponse.error) {
+  if (bodyRequest.error) {
     return reply.status(400).send({
       error: "Bad request",
-      message: bodyResponse.error.message,
+      message: bodyRequest.error.message,
     });
   }
 
-  const { fileName, booksRange } = bodyResponse.data;
+  const { fileName, booksRange } = bodyRequest.data;
+
+  const cutSettings = generateCutSettings(fileName, booksRange);
+
+  main(cutSettings);
 
   return reply.status(201).send({
-    fileName,
-    booksRange,
+    success: true,
+    message: "All chapters have been generated"
   });
 });
 
