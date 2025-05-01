@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { loadHomeDir } from "../lib/loadHomeDir";
 import { normalizeFolderName } from "../lib/normalizeFolderName";
+import { projectFolderName } from "../constants";
 
 /**
  *
@@ -12,7 +13,7 @@ export function createBookFolder(folderName: string) {
   const normalizedFolderName = normalizeFolderName(folderName);
   const folderPath = path.join(
     loadHomeDir(),
-    "cutBook",
+    projectFolderName,
     "books",
     normalizedFolderName
   );

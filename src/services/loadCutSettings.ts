@@ -4,12 +4,13 @@ import path from "node:path";
 import { BaseError } from "../errors/baseError";
 import { CutSettings } from "../@types/cutSettings";
 import { loadHomeDir } from "../lib/loadHomeDir";
+import { projectFolderName } from "../constants";
 
 export function loadCutSettings() {
   try {
     const loadCutSettingsPath = path.join(
       loadHomeDir(),
-      "cutBook",
+      projectFolderName,
       "cutSettings.json"
     );
     const cutSettingsRawData = fs.readFileSync(loadCutSettingsPath, "utf8");

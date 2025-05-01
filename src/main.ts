@@ -8,10 +8,11 @@ import { loadHomeDir } from "./lib/loadHomeDir";
 import { cutBook } from "./services/cutBook";
 import { generateCutSettings } from "./services/generateCutSettings";
 import { CutSettings } from "./@types/cutSettings";
+import { projectFolderName } from "./constants";
 
 function main(cutSettings: CutSettings) {
   cutSettings.forEach((file) => {
-    const filePath = path.join(loadHomeDir(), "cutBook", file.filename);
+    const filePath = path.join(loadHomeDir(), projectFolderName, file.filename);
 
     file.books.forEach(async (book) => {
       const range = book.chapters.map((chapter) =>
