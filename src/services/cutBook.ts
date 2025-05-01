@@ -1,10 +1,10 @@
-import fs from 'fs';
-import { PDFDocument } from 'pdf-lib';
-import path from 'path';
+import fs from "fs";
+import { PDFDocument } from "pdf-lib";
+import path from "path";
 
 export async function cutBook(
-  inputPath: string, 
-  outputDir: string, 
+  inputPath: string,
+  outputDir: string,
   ranges: number[][]
 ) {
   const existingPdfBytes = fs.readFileSync(inputPath);
@@ -20,7 +20,7 @@ export async function cutBook(
 
     const pdfBytes = await newPdf.save();
 
-    const outputPath = path.join(outputDir, `Chapter_${index + 1}.pdf`);
+    const outputPath = path.join(outputDir, `Chapter ${index + 1}.pdf`);
     fs.writeFileSync(outputPath, pdfBytes);
     console.log(`Generate: ${path.basename(outputPath)}`);
   }

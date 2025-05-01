@@ -75,7 +75,7 @@ app.post("/cut-books", (request, reply) => {
 
   return reply.status(201).send({
     success: true,
-    message: "All chapters have been generated"
+    message: "All chapters have been generated",
   });
 });
 

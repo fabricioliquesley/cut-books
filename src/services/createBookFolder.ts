@@ -4,23 +4,27 @@ import { loadHomeDir } from "../lib/loadHomeDir";
 import { normalizeFolderName } from "../lib/normalizeFolderName";
 
 /**
- * 
- * @param folderName string 
+ *
+ * @param folderName string
  * @returns {void}
  */
 export function createBookFolder(folderName: string) {
   const normalizedFolderName = normalizeFolderName(folderName);
   const folderPath = path.join(
-    loadHomeDir(), "cutBook", "books", normalizedFolderName 
+    loadHomeDir(),
+    "cutBook",
+    "books",
+    normalizedFolderName
   );
 
   try {
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
       return folderPath;
-    }
-    else {
-      console.log(`A folder with the name ${path.basename(folderName)} already exists.`);
+    } else {
+      console.log(
+        `A folder with the name ${path.basename(folderName)} already exists.`
+      );
       return;
     }
   } catch (err) {
