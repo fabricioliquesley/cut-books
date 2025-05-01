@@ -1,3 +1,4 @@
 const projectFolderName = "cutBook";
+const backupFolderName = ".backup";
 
-export { projectFolderName };
+export { projectFolderName, backupFolderName };
