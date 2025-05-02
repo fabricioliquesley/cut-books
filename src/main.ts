@@ -10,9 +10,10 @@ import { generateCutSettings } from "./services/generateCutSettings";
 import { CutSettings } from "./@types/cutSettings";
 import { projectFolderName } from "./constants";
 import { createCutSettingsBackup } from "./services/createCutSettingsBackup";
+import { validateBackupExpiry } from "./services/validateBackupExpiry";
 
 function main(cutSettings: CutSettings) {
-  cutSettings.forEach((file) => {
+  cutSettings.forEach(async (file) => {
     const filePath = path.join(loadHomeDir(), projectFolderName, file.filename);
 
     file.books.forEach(async (book) => {
@@ -28,6 +29,7 @@ function main(cutSettings: CutSettings) {
     });
 
     createCutSettingsBackup(cutSettings);
+    await validateBackupExpiry();
   });
 }
 
