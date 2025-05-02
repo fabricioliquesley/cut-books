@@ -8,10 +8,12 @@ import { loadHomeDir } from "./lib/loadHomeDir";
 import { cutBook } from "./services/cutBook";
 import { generateCutSettings } from "./services/generateCutSettings";
 import { CutSettings } from "./@types/cutSettings";
+import { projectFolderName } from "./constants";
+import { createCutSettingsBackup } from "./services/createCutSettingsBackup";
 
 function main(cutSettings: CutSettings) {
   cutSettings.forEach((file) => {
-    const filePath = path.join(loadHomeDir(), "cutBook", file.filename);
+    const filePath = path.join(loadHomeDir(), projectFolderName, file.filename);
 
     file.books.forEach(async (book) => {
       const range = book.chapters.map((chapter) =>
@@ -24,6 +26,8 @@ function main(cutSettings: CutSettings) {
 
       await cutBook(filePath, folderPath, range);
     });
+
+    createCutSettingsBackup(cutSettings);
   });
 }
 
@@ -75,7 +79,7 @@ app.post("/cut-books", (request, reply) => {
 
   return reply.status(201).send({
     success: true,
-    message: "All chapters have been generated"
+    message: "All chapters have been generated",
   });
 });
 

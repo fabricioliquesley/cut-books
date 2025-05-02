@@ -1,0 +1,16 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BackupFiles {
+  id        String   @id
+  book      String
+  folder    String
+  createdAt DateTime @default(now()) @map("created_at")
+}

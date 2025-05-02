@@ -1,7 +1,7 @@
 export type CutSettings = {
-  filename: string,
+  filename: string;
   books: {
-    title: string
-    chapters: string[]
-  }[]
-}[]
+    title: string;
+    chapters: string[];
+  }[];
+}[];
