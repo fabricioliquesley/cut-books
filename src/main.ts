@@ -9,6 +9,7 @@ import { cutBook } from "./services/cutBook";
 import { generateCutSettings } from "./services/generateCutSettings";
 import { CutSettings } from "./@types/cutSettings";
 import { projectFolderName } from "./constants";
+import { createCutSettingsBackup } from "./services/createCutSettingsBackup";
 
 function main(cutSettings: CutSettings) {
   cutSettings.forEach((file) => {
@@ -25,6 +26,8 @@ function main(cutSettings: CutSettings) {
 
       await cutBook(filePath, folderPath, range);
     });
+
+    createCutSettingsBackup(cutSettings);
   });
 }
 
