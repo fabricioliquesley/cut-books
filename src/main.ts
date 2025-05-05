@@ -11,6 +11,7 @@ import { CutSettings } from "./@types/cutSettings";
 import { projectFolderName } from "./constants";
 import { createCutSettingsBackup } from "./services/createCutSettingsBackup";
 import { validateBackupExpiry } from "./services/validateBackupExpiry";
+import { getAvailableBackups } from "./services/getAvailableBackups";
 
 function main(cutSettings: CutSettings) {
   cutSettings.forEach(async (file) => {
@@ -43,6 +44,14 @@ app.get("/status", (_request, reply) => {
   return reply.status(200).send({
     status: "200",
     message: "server is ok",
+  });
+});
+
+app.get("/backups", async (_request, reply) => {
+  const backups = await getAvailableBackups();
+
+  return reply.status(200).send({
+    backups,
   });
 });
 
