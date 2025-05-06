@@ -4,15 +4,21 @@ import path from "node:path";
 import { BaseError } from "../errors/baseError";
 import { CutSettings } from "../@types/cutSettings";
 import { loadHomeDir } from "../lib/loadHomeDir";
-import { projectFolderName } from "../constants";
+import { projectFolderName, backupFolderName } from "../constants";
 
-export function loadCutSettings() {
+export function loadBackupCutSettings(
+  dateBackupFolder: string,
+  backupFilename: string
+) {
   try {
     const loadCutSettingsPath = path.join(
       loadHomeDir(),
       projectFolderName,
-      "cutSettings.json"
+      backupFolderName,
+      dateBackupFolder,
+      backupFilename
     );
+
     const cutSettingsRawData = fs.readFileSync(loadCutSettingsPath, "utf8");
     const jsonData = JSON.parse(cutSettingsRawData) as CutSettings;
 

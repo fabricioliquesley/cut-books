@@ -12,8 +12,16 @@ import { projectFolderName } from "./constants";
 import { createCutSettingsBackup } from "./services/createCutSettingsBackup";
 import { validateBackupExpiry } from "./services/validateBackupExpiry";
 import { getAvailableBackups } from "./services/getAvailableBackups";
+import { prisma } from "./lib/prisma";
+import { loadBackupCutSettings } from "./services/loadBackupCutSettings";
+import { BaseError } from "./errors/baseError";
 
-function main(cutSettings: CutSettings) {
+type MainOptions = { isBackup?: boolean };
+
+function main(
+  cutSettings: CutSettings,
+  options: MainOptions = { isBackup: false }
+) {
   cutSettings.forEach(async (file) => {
     const filePath = path.join(loadHomeDir(), projectFolderName, file.filename);
 
@@ -29,7 +37,7 @@ function main(cutSettings: CutSettings) {
       await cutBook(filePath, folderPath, range);
     });
 
-    createCutSettingsBackup(cutSettings);
+    if (!options.isBackup) createCutSettingsBackup(cutSettings);
     await validateBackupExpiry();
   });
 }
@@ -91,6 +99,47 @@ app.post("/cut-books", (request, reply) => {
   return reply.status(201).send({
     success: true,
     message: "All chapters have been generated",
+  });
+});
+
+const backupsBodySchema = z.object({
+  backups: z.string().array(),
+});
+
+app.post("/backups", async (request, reply) => {
+  const bodyRequest = backupsBodySchema.safeParse(request.body);
+
+  if (bodyRequest.error) {
+    return reply.status(400).send({
+      error: "Bad request",
+      message: bodyRequest.error.message,
+    });
+  }
+
+  const { backups } = bodyRequest.data;
+
+  const backupFiles = await prisma.backupFiles.findMany({
+    where: {
+      id: {
+        in: backups,
+      },
+    },
+  });
+
+  backupFiles.forEach((backupFile) => {
+    const backupFilename = `${backupFile.id}-${backupFile.book}-backup.json`;
+    const cutSettings = loadBackupCutSettings(
+      backupFile.folder,
+      backupFilename
+    );
+
+    if (!cutSettings) throw new BaseError("Not found", "backup not available");
+
+    main(cutSettings, { isBackup: true });
+  });
+
+  reply.status(201).send({
+    success: true,
   });
 });
 
